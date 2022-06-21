@@ -82,6 +82,51 @@ class Api {
       body: JSON.stringify(avatar),
     }).then(this._checkResponse);
   }
+  register(email, password) {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then(this._checkResponse)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  authorize(email, password) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then(this._checkResponse)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          return data;
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  checkToken(jwt) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }).then(this._checkResponse);
+  }
 }
 const api = new Api({
   url: "https://mesto.nomoreparties.co/v1/cohort-40",
@@ -90,4 +135,12 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-export default api;
+
+const auth = new Api({
+  url: "https://auth.nomoreparties.co",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export { api, auth };
