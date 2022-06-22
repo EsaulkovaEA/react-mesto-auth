@@ -92,10 +92,9 @@ class Api {
       body: JSON.stringify({ email, password }),
     })
       .then(this._checkResponse)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => console.log(err));
+      // .then((res) => {
+      //   return res.data;
+      // })
   }
 
   authorize(email, password) {
@@ -114,7 +113,6 @@ class Api {
           return data;
         }
       })
-      .catch((err) => console.log(err));
   }
 
   checkToken(jwt) {

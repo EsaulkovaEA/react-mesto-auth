@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-import { Route, Switch, Redirect, withRouter, useHistory,} from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+  useHistory,
+} from "react-router-dom";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import PopupWithForm from "./PopupWithForm.js";
@@ -37,16 +43,18 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
-    Promise.all([api.getProfileInfo(), api.getAllCards()])
-      .then(([userData, cards]) => {
-        setCurrentUser(userData);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (loggedIn) {
+      Promise.all([api.getProfileInfo(), api.getAllCards()])
+        .then(([userData, cards]) => {
+          setCurrentUser(userData);
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     handleTokenCheck();
-  }, []);
+  }, [loggedIn]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -161,14 +169,14 @@ function App() {
     auth
       .register(email, password)
       .then(() => {
-        setInfoTooltipPopupOpen(true);
         setIsAuthSuccesfull(true);
         history.push("/sign-in");
+        setInfoTooltipPopupOpen(true);
       })
       .catch((err) => {
         console.log(err);
-        setInfoTooltipPopupOpen(true);
         setIsAuthSuccesfull(false);
+        setInfoTooltipPopupOpen(true);
       });
   }
 
@@ -181,11 +189,11 @@ function App() {
           setLoggedIn(true);
           setEmail(email);
           history.push("/");
-          // console.log(res);
         }
       })
       .catch((err) => {
         console.log(err);
+        setIsAuthSuccesfull(false);
         setInfoTooltipPopupOpen(true);
       });
   }

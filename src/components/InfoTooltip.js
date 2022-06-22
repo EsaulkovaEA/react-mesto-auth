@@ -9,14 +9,14 @@ function InfoTooltip({ isOpen, onClose, isAuthSuccesfull }) {
         <div className="popup__container">
           {isAuthSuccesfull ? (
             <div className="popup__form">
-              <img src={`${SuccesIcon}`} className="popup__img-tooltip" />
+              <img src={`${SuccesIcon}`} alt="Успешно" className="popup__img-tooltip" />
               <h2 className="popup__title popup__title_tooltip">
                 Вы успешно зарегистрировались!
               </h2>
             </div>
           ) : (
             <div className="popup__form">
-              <img src={`${ErrorIcon}`} className="popup__img-tooltip" />
+              <img src={`${ErrorIcon}`} alt="Ошибка" className="popup__img-tooltip" />
               <h2 className="popup__title popup__title_tooltip">
                 Что-то пошло не так. Попробуйте ещё раз!
               </h2>

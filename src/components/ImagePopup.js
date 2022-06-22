@@ -8,7 +8,7 @@ function ImagePopup({card,onClose}) {
           type="button"
           aria-label="Закрыть"
           onClick={onClose}
-        ></button>
+        />
         <img
           className="popup__image"
           alt={card?.name}
