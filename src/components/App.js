@@ -41,7 +41,9 @@ function App() {
   const [isAuthSuccesfull, setIsAuthSuccesfull] = useState(false);
 
   const history = useHistory();
-
+  useEffect(() => {
+    handleTokenCheck();
+  },[]);
   useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getProfileInfo(), api.getAllCards()])
@@ -53,7 +55,6 @@ function App() {
           console.log(err);
         });
     }
-    handleTokenCheck();
   }, [loggedIn]);
 
   const handleEditAvatarClick = () => {
